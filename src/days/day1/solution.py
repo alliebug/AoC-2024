@@ -1,40 +1,80 @@
-# part 1
-from collections import defaultdict
+import sys
 
+word_to_number = {
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9',
+}
 
-with open("input.txt", "r") as file:
-    input = file.readlines()
+input = [s[:-1] for s in sys.stdin.readlines()]
+# input = [
+#     'two1nine',
+# 'eightwothree',
+# 'abcone2threexyz',
+# 'xtwone3four',
+# '4nineeightseven2',
+# 'zoneight234',
+# '7pqrstsixteen'
+# ]
+# print(input)
 
-arr1 = []
-arr2 = []
-for i in range(len(input)):
-    a = input[i].split()
-    arr1.append(int(a[0]))
-    arr2.append(int(a[1]))
+number_list = []
 
-arr1 = sorted(arr1)
-arr2 = sorted(arr2)
-sum = 0
-for i in range(len(arr1)):
-    diff = abs(arr1[i] - arr2[i])
-    sum += diff
+for word in input:
+    w = ''
+    num = ''
+    for char in word:
+        w += char
+        if char.isnumeric():
+            num += char
+            break
+        else:
+            found = False
+            for key in word_to_number:
+                if key in w:
+                    num += word_to_number[key]
+                    found = True
+                    break
+            if found:
+                break
+    number_list.append(num)
+print(number_list)
+
+number_list_2 = []
+for word in input:
+    w = ''
+    num = ''
+    for char in reversed(word):
+        w = char + w
+        if char.isnumeric():
+            num += char
+            break
+        else:
+            found = False
+            for key in word_to_number:
+                if key in w:
+                    num += word_to_number[key]
+                    found = True
+                    break
+            if found:
+                break
+    number_list_2.append(num)
+print(number_list_2)
+
+what = [x[0] + x[1] for x in zip(number_list, number_list_2)]
+print(what)
+sum = sum(int(a) for a in what)
+# cleaned_word_list = [''.join([char for char in word if char.isnumeric()]) for word in number_list]
+# print(cleaned_word_list)
+# sum = 0
+# for word in cleaned_word_list:
+#     num = int(word[0] + word[-1])
+#     sum += num
 
 print(sum)
-
-# part 2
-with open("input.txt", "r") as file:
-    input = file.readlines()
-
-arr = []
-d = defaultdict(int)
-for i in range(len(input)):
-    a = input[i].split()
-    arr.append(int(a[0]))
-    temp = int(a[1])
-    d[temp] += 1
-
-total_score = 0
-for i in range(len(arr)):
-    score = d.get(arr[i], 0) * arr[i]
-    total_score += score
-print(total_score)
