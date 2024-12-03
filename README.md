@@ -1,3 +1,7 @@
+# Goal
+
+my goal this year is to do more than 6 days!
+
 # aoc-node-template
 
 aoc-node-template is a node js template for advent of code
